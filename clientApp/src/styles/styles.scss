@@ -1,0 +1,23 @@
+@import "~@angular/material/theming";
+@import "./variables.scss";
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: mat-color($primary, 50);
+}
+
+span {
+    &.flex-span {
+        margin: auto !important;
+    }
+    &.value {
+        float: right;
+    }
+}
+
+mat-card {
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,29 @@
+@import "~@angular/material/theming";
+@import "../../../styles/variables.scss";
+
+.navbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $navbarHeight;
+    background-color: mat-color($primary, lighter);
+    padding: 0 15px;
+    z-index: 1;
+
+    & > * {
+        margin: auto 0;
+    }
+
+    a {
+        border-radius: 0;
+        border-bottom: 1px solid;
+        border-bottom-color: rgba(0, 0, 0, 0);
+        transition: border-bottom-color 0.3s;
+
+        &.active-link {
+            border-bottom-color: mat-color($primary);
+        }
+    }
+}
