@@ -1,11 +1,8 @@
-const products = [
-
-];
-
 connection = new Mongo();
-db = connection.getDB('admin');
+adminDb = connection.getDB('admin');
+db = connection.getDB('catalogue');
 
-db.createUser(
+adminDb.createUser(
     {
         user: 'localdev',
         pwd: 'password',

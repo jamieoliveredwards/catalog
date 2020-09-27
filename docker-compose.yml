@@ -4,7 +4,7 @@ services:
     image: mongo:4.4.0
     restart: always
     volumes:
-      - ./db/mongodata:/data/db
+      # - ./db/mongodata:/data/db:delegated
       - ./db/startup/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     ports:
       - "27018:27017"
@@ -19,6 +19,7 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
+      - DB_URI=mongodb://localdev:password@db:27017/catalogue
     links:
       - db
       - client_app
