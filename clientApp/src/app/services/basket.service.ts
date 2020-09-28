@@ -46,14 +46,14 @@ export class BasketService {
     });
   }
 
-  getPromotionalDiscount(promoCode: string): Observable<{ field: string, msh: string }[] | true> {
-    return this.http.post<any>(`${environment.apiBase}/promocode`, { promoCode }).pipe(
+  getPromotionalDiscount(promoCode: string): Observable<any[] | true> {
+    return this.http.get<any>(`${environment.apiBase}/promotions/${promoCode}`).pipe(
       take(1),
       map(response => {
         if (response.errors) {
           return response.errors;
         }
-        this.discount$.next(response.amount);
+        this.discount$.next(response.discountPercentage);
         return true;
       })
     );

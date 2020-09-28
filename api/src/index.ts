@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/products', productsRouter);
-app.use('/promocode', promocodeRouter);
+app.use('/promotions', promocodeRouter);
 app.use('/checkout', checkoutRouter);
 
 const port = process.env.PORT || 8080;
