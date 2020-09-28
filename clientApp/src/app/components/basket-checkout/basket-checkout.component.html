@@ -3,35 +3,46 @@
         <mat-card>
             <mat-card-title>Cart</mat-card-title>
             <mat-card-content>
-                <table>
-                    <thead>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th></th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of basket.items">
-                            <td>{{ item.product.name }}</td>
-                            <td>
-                                <mat-form-field appearance="standard">
-                                    <mat-select matNativeControl
-                                        (selectionChange)="changeQuantity(item.product.sku, $event.value)"
-                                        [value]="item.quantity" [placeholder]="item.quantity">
-                                        <mat-option *ngFor="let option of quantityOptions" [value]="option">
-                                            {{ option.toString() }}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </td>
-                            <td>{{ item.product.price * item.quantity | currency: 'GBP' }}</td>
-                            <td>
-                                <button mat-icon-button (click)="removeItemFromBasket(item.product.sku)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                <table mat-table [dataSource]="basket.items">
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let item">{{ item.product.name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell *matHeaderCellDef class="quantity-col">Quantity</th>
+                        <td mat-cell *matCellDef="let item" class="quantity-col">
+                            <mat-form-field appearance="outline">
+                                <mat-select matNativeControl
+                                    (selectionChange)="changeQuantity(item.product.sku, $event.value)"
+                                    [value]="item.quantity" [placeholder]="item.quantity">
+                                    <mat-option *ngFor="let option of quantityOptions" [value]="option">
+                                        {{ option }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                        <td mat-cell *matCellDef="let item">{{ item.product.price * item.quantity | currency: 'GBP' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="delete">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let item">
+                            <button mat-icon-button (click)="removeItemFromBasket(item.product.sku)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="['name', 'quantity', 'price', 'delete']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['name', 'quantity', 'price', 'delete']"></tr>
+
                 </table>
             </mat-card-content>
         </mat-card>
@@ -43,7 +54,7 @@
             </mat-card-subtitle>
             <form #promoForm="ngForm" (ngSubmit)="applyPromotion(promoForm.value.promoCode)">
                 <mat-card-content>
-                    <mat-form-field appearance="standard">
+                    <mat-form-field appearance="outline">
                         <mat-label>Discount Code</mat-label>
                         <input matInput type="text" name="promoCode" required ngModel>
                     </mat-form-field>
@@ -79,7 +90,7 @@
             <mat-card-title>Checkout</mat-card-title>
             <form [formGroup]="checkoutForm" (ngSubmit)="checkout(checkoutForm.value.cardNumber)">
                 <mat-card-content>
-                    <mat-form-field appearance="standard">
+                    <mat-form-field appearance="outline">
                         <mat-label>Credit Card Number</mat-label>
                         <input matInput type="text" formControlName="cardNumber" required minlength="6">
                     </mat-form-field>
