@@ -2,6 +2,8 @@ connection = new Mongo();
 adminDb = connection.getDB('admin');
 db = connection.getDB('catalogue');
 
+const today = new Date();
+
 adminDb.createUser(
     {
         user: 'localdev',
@@ -53,5 +55,33 @@ db.products.insertMany([
         "name": "Product Six",
         "description": "Product Six description",
         "price": 6.66
+    }
+]);
+
+db.createCollection('promotions');
+db.promotions.insertMany([
+    {
+        discountPercentage: 30,
+        promoCode: 'summersale',
+        validFrom: new Date(today.getFullYear() - 1, today.getMonth(), today.getDate()),
+        validUntil: new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
+    },
+    {
+        discountPercentage: 10,
+        promoCode: 'studentcard',
+        validFrom: new Date(today.getFullYear() - 1, today.getMonth(), today.getDate()),
+        validUntil: new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
+    },
+    {
+        discountPercentage: 10,
+        promoCode: 'expired',
+        validFrom: new Date(today.getFullYear() - 1, today.getMonth(), today.getDate()),
+        validUntil: new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+    },
+    {
+        discountPercentage: 10,
+        promoCode: 'future',
+        validFrom: new Date(today.getFullYear(), today.getMonth() + 1, today.getDate()),
+        validUntil: new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
     }
 ]);
