@@ -1,7 +1,9 @@
 # Catalog
 Product catalogue and checkout application
 
-## Start Application
+MEAN Stack Application
+
+## Start Development Environment
 Clone this repository.
 
 Ensure Docker is installed and running on local machine.
