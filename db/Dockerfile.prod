@@ -1,0 +1,12 @@
+FROM bhgedigital/envsubst:latest as build
+ARG API_USER
+ARG API_PASS
+ENV API_USER=${API_USER}
+ENV API_PASS=${API_PASS}
+WORKDIR /usr/db_build
+COPY . .
+WORKDIR /usr/db_build/startup
+RUN sed -i 's/\r$//' ./env-replace.sh && sh ./env-replace.sh
+
+FROM mongo:4.4
+COPY --from=build /usr/db_build/startup/output/* /docker-entrypoint-initdb.d/

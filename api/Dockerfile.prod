@@ -1,0 +1,10 @@
+FROM node:10 as build
+WORKDIR /usr/apiBuild
+COPY . .
+RUN npm i -g npm typescript && npm i && tsc
+
+FROM node:alpine
+WORKDIR /usr/api
+COPY --from=build /usr/apiBuild/dist .
+COPY --from=build /usr/apiBuild/package.json .
+RUN npm install --only=prod

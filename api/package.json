@@ -4,6 +4,7 @@
   "description": "API for basket app demo project",
   "main": "dist/index.js",
   "scripts": {
+    "build-prod": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jamieoliveredwards@gmail.com",

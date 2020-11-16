@@ -6,8 +6,8 @@ const today = new Date();
 
 adminDb.createUser(
     {
-        user: 'localdev',
-        pwd: 'password',
+        user: '$API_USER'.length > 0 ? '$API_USER' : 'api_user',
+        pwd: '$API_PASS'.length > 0 ? '$API_PASS' : 'password',
         roles: [
             {
                 role: 'userAdminAnyDatabase',

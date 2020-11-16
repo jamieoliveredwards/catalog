@@ -1,0 +1,10 @@
+FROM node:alpine
+ARG PORT
+ARG DB_URI
+ENV PORT=${PORT}
+ENV DB_URI=${DB_URI}
+RUN npm i -g nodemon typescript concurrently
+WORKDIR /usr/api
+COPY . .
+RUN npm install && tsc
+CMD concurrently "tsc -w" "nodemon dist"

@@ -1,0 +1,6 @@
+FROM node:alpine
+ARG API_BASE
+ENV API_BASE=${API_BASE}
+WORKDIR /usr/clientApp
+COPY . .
+CMD npm start

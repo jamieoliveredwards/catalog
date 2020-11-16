@@ -7,42 +7,42 @@ services:
       args:
         API_USER: ${DB_USER_API}
         API_PASS: ${DB_PASS_API}
-    image: jamieoliveredwards/catalogue-db-dev
+    image: jamieoliveredwards/catalogue-db
     restart: always
     volumes:
       - mongodb_data:/data/db
-    ports:
-      - "27018:27017"
+    networks:
+      - backend
   api:
-    build: 
+    build:
       context: ./api
-      dockerfile: Dockerfile.dev
-      args:
-        - API_BASE=http://localhost:${API_PORT}
+      dockerfile: Dockerfile.prod
+    image: jamieoliveredwards/catalogue-api
     restart: always
     working_dir: /usr/api
+    command: node index.js
+    ports:
+      - "${API_PORT}:${API_PORT}"
     environment:
       - PORT=${API_PORT}
       - DB_URI=mongodb://${DB_USER_API}:${DB_PASS_API}@db:27017/catalogue
-    ports:
-      - "8080:${API_PORT}"
-    volumes:
-      - ./api/src:/usr/api/src
     links:
       - db
       - client_app
+    networks:
+      - backend
   client_app:
-    build: 
+    build:
       context: ./clientApp
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
+      args:
+        API_BASE: http://192.168.0.12:${API_PORT}
+    image: jamieoliveredwards/catalogue-app
     restart: always
-    working_dir: /usr/clientApp
-    volumes:
-      - ./clientApp/src:/usr/clientApp/src
     ports:
-      - "4201:4200"
+      - "4201:80"
 
-volumes: 
+volumes:
   mongodb_data:
 
 networks:

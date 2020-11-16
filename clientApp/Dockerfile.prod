@@ -1,0 +1,14 @@
+FROM node:10 as build
+ARG API_BASE
+ENV API_BASE=${API_BASE}
+WORKDIR /usr/clientApp
+COPY . .
+RUN sed -i 's/\r$//' ./docker/scripts/env-replace.sh && \
+    sed -i 's/\r$//' ./docker/scripts/nginx-conf.sh && \
+    sh ./docker/env-replace.sh && npm install && npm run build-prod && \
+    sh ./docker/nginx-conf.sh /usr/share/nginx/html >> ./docker/app.conf
+
+FROM nginx:alpine
+COPY --from=build /usr/clientApp/dist/clientApp /usr/share/nginx/html
+COPY --from=build /usr/clientApp/docker/app.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
